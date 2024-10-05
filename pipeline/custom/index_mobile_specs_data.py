@@ -60,7 +60,7 @@ def transform_custom(*args, **kwargs):
         Anything (e.g. data frame, dictionary, array, int, str, etc.)
     """
     # Specify your custom logic here
-    es_client = Elasticsearch('elasticsearch:9200')
+    es_client = Elasticsearch('http://elasticsearch:9200')
     print('--------------')
     print(es_client.info())
     print('--------------')
