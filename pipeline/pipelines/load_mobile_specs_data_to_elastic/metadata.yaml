@@ -1,0 +1,41 @@
+blocks:
+- all_upstream_blocks_executed: true
+  color: purple
+  configuration: {}
+  downstream_blocks: []
+  executor_config: null
+  executor_type: local_python
+  has_callback: false
+  language: python
+  name: index_mobile_specs_data
+  retry_config: null
+  status: updated
+  timeout: null
+  type: custom
+  upstream_blocks: []
+  uuid: index_mobile_specs_data
+cache_block_output_in_memory: false
+callbacks: []
+concurrency_config: {}
+conditionals: []
+created_at: '2024-10-05 12:55:17.179914+00:00'
+data_integration: null
+description: Encode and index all the mobile phones to elastic search
+executor_config: {}
+executor_count: 1
+executor_type: null
+extensions: {}
+name: load_mobile_specs_data_to_elastic
+notification_config: {}
+remote_variables_dir: null
+retry_config: {}
+run_pipeline_in_one_process: false
+settings:
+  triggers: null
+spark_config: {}
+tags:
+- Load ES
+type: python
+uuid: load_mobile_specs_data_to_elastic
+variables_dir: /root/.mage_data/pipeline
+widgets: []

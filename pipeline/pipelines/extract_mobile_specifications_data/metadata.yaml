@@ -1,0 +1,58 @@
+blocks:
+- all_upstream_blocks_executed: true
+  color: blue
+  configuration: {}
+  downstream_blocks:
+  - process_errored_mobile_data
+  executor_config: null
+  executor_type: local_python
+  has_callback: false
+  language: python
+  name: scrape_and_create_ndtv_website_data
+  retry_config: null
+  status: updated
+  timeout: null
+  type: custom
+  upstream_blocks: []
+  uuid: scrape_and_create_ndtv_website_data
+- all_upstream_blocks_executed: false
+  color: grey
+  configuration: {}
+  downstream_blocks: []
+  executor_config: null
+  executor_type: local_python
+  has_callback: false
+  language: python
+  name: process_errored_mobile_data
+  retry_config: null
+  status: updated
+  timeout: null
+  type: custom
+  upstream_blocks:
+  - scrape_and_create_ndtv_website_data
+  uuid: process_errored_mobile_data
+cache_block_output_in_memory: false
+callbacks: []
+concurrency_config: {}
+conditionals: []
+created_at: '2024-10-04 04:42:06.821304+00:00'
+data_integration: null
+description: Pipeline to scrape the web to extract mobile specs data
+executor_config: {}
+executor_count: 1
+executor_type: null
+extensions: {}
+name: extract-mobile-specifications-data
+notification_config: {}
+remote_variables_dir: null
+retry_config: {}
+run_pipeline_in_one_process: false
+settings:
+  triggers: null
+spark_config: {}
+tags:
+- load_pipeline
+type: python
+uuid: extract_mobile_specifications_data
+variables_dir: /root/.mage_data/pipeline
+widgets: []

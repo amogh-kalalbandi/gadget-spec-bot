@@ -7,6 +7,13 @@ name = "pypi"
 notebook = "*"
 beautifulsoup4 = "*"
 ipdb = "*"
+tqdm = "*"
+elasticsearch = "*"
+sentence-transformers = "==2.7.0"
+numpy = "==1.26.4"
+pandas = "*"
+openai = "*"
+streamlit = "*"
 
 [dev-packages]
 
