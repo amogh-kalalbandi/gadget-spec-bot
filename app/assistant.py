@@ -1,13 +1,11 @@
 import os
 import time
 import json
+import requests
 
 # from openai import OpenAI
 from huggingface_hub import InferenceClient
-
 from elasticsearch import Elasticsearch
-# from sentence_transformers import SentenceTransformer
-import spacy
 
 ELASTIC_URL = os.getenv("ELASTIC_URL", "http://elasticsearch:9200")
 # OPENAI_API_KEY = os.getenv("OPENAI_API_KEY", "your-api-key-here")
@@ -20,8 +18,6 @@ print(f'Hugging client initialized = {hugging_face}')
 relevance_client = InferenceClient("mistralai/Mistral-7B-Instruct-v0.3", token=HF_API_TOKEN)
 print(f'Hugging client initialized = {relevance_client}')
 
-# model = SentenceTransformer("all-mpnet-base-v2")
-nlp = spacy.load('en_core_web_sm')
 
 def elastic_search_knn(vector, vector_field, index_name="mobile-specifications"):
     """Return elastic search results for given vector."""
@@ -53,15 +49,15 @@ def elastic_search_knn(vector, vector_field, index_name="mobile-specifications")
 def build_prompt(phone_specifications, mobile_context):
     """Build the context using search results and return the prompt."""
     prompt_template = """
-You are mobile phone expert. Answer all the questions of PHONE using the CONTEXT provided from SPECFICATIONS database.
-The specifications in the CONTEXT is a json string. Convert the json string to readable format before printing out the answer.
-Use only the specifications given in the context to print the specs of the device.
-Do not number the specifications passed.
-Print only the first result in a markdown format where subsections are indented in readable format.
+You are mobile phone expert. Follow the STRATEGIES given below on how to answer statement given by the user.
+Print result in a markdown format where subsections are indented in readable format.
+
+STRATEGIES:
 
 Case 1: If the user asks the question for eg:
     Tell me the specifications of the iphone 12, then:
         List down all the specifications of the first result present the CONTEXT.
+        DO NOT PRINT QUESTIONS WITH THE ANSWER. PRINT ONLY THE SPECIFICATIONS.
 
 Case 2: If the user asks the question for eg:
     List all the phones under samsung brand, then:
@@ -73,6 +69,10 @@ PHONE: {phone}
 
 CONTEXT:
 {context}
+
+Things to remember:
+1. If the user asks for specifications, Do not give the whole answer, Extract and print only specifications.
+2. If the user asks for list of phones, Extract only the phone names from CONTEXT and print.
 """.strip()
 
     context = ""
@@ -134,8 +134,16 @@ def llm(model, client, prompt):
 
 
 def get_answer(query, model_choice):
-    vector = model.encode(query)
-    mobile_context = elastic_search_knn(vector, 'specification_vector')
+    # vector = model.encode(query)
+    url = 'http://host.docker.internal:5000/vector'
+    param_value = query
+
+    # Create the parameters dictionary to send with the request
+    params = {'input': param_value}
+
+    # Send the GET request to the Flask app
+    response = requests.get(url, params=params)
+    mobile_context = elastic_search_knn(response.json()['vector'], 'specification_vector')
 
     prompt = build_prompt(query, mobile_context)
     print(f'Prompt built = {prompt}')

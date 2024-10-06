@@ -15,6 +15,7 @@ pandas = "*"
 openai = "*"
 streamlit = "*"
 spacy = "*"
+flask = "*"
 
 [dev-packages]
 

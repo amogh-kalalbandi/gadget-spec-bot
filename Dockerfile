@@ -4,6 +4,14 @@ ENV PYTHONUNBUFFERED=1
 
 WORKDIR /app
 
+RUN apt-get update -y && \
+  apt-get install --no-install-recommends -y -q \
+  git libpq-dev build-essential libsnappy-dev && \
+  apt-get clean && \
+  rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
+
+RUN apt-get install -y gcc
+
 COPY requirements.txt .
 RUN pip install --no-cache-dir -r requirements.txt
 

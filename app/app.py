@@ -14,9 +14,6 @@ def main():
     print_log("Starting the Course Assistant application")
     st.title("Gadget Specifications Bot")
 
-    # Session state initialization
-    st.session_state.conversation_id = str(uuid.uuid4())
-    print_log(f"New conversation started with ID: {st.session_state.conversation_id}")
     if 'count' not in st.session_state:
         st.session_state.count = 0
         print_log("Feedback count initialized to 0")
@@ -30,6 +27,10 @@ def main():
     user_input = st.text_input("Enter your question:")
 
     if st.button("Ask"):
+        # Session state initialization
+        st.session_state.conversation_id = str(uuid.uuid4())
+        print_log(f"New conversation started with ID: {st.session_state.conversation_id}")
+
         print_log(f"User asked: '{user_input}'")
         with st.spinner('Processing...'):
             print_log(f"Getting answer from assistant using {model_choice} model")
@@ -68,6 +69,12 @@ def main():
             save_feedback(st.session_state.conversation_id, -1)
             print_log("Negative feedback saved to database")
 
+    # Display feedback stats
+    feedback_stats = get_feedback_stats()
+    st.subheader("Feedback Statistics")
+    st.write(f"Thumbs up: {feedback_stats['thumbs_up']}")
+    st.write(f"Thumbs down: {feedback_stats['thumbs_down']}")
+
     # Display recent conversations
     st.subheader("Recent Conversations")
     relevance_filter = st.selectbox("Filter by relevance:", ["All", "RELEVANT", "PARTLY_RELEVANT", "NON_RELEVANT"])
@@ -77,12 +84,6 @@ def main():
         st.write(f"Relevance: {conv['relevance']}")
         st.write(f"Model: {conv['model_used']}")
         st.write("---")
-
-    # Display feedback stats
-    feedback_stats = get_feedback_stats()
-    st.subheader("Feedback Statistics")
-    st.write(f"Thumbs up: {feedback_stats['thumbs_up']}")
-    st.write(f"Thumbs down: {feedback_stats['thumbs_down']}")
 
 print_log("Streamlit app loop completed")
 
