@@ -12,19 +12,18 @@ def print_log(message):
 
 def main():
     print_log("Starting the Course Assistant application")
-    st.title("Course Assistant")
+    st.title("Gadget Specifications Bot")
 
     # Session state initialization
-    if 'conversation_id' not in st.session_state:
-        st.session_state.conversation_id = str(uuid.uuid4())
-        print_log(f"New conversation started with ID: {st.session_state.conversation_id}")
+    st.session_state.conversation_id = str(uuid.uuid4())
+    print_log(f"New conversation started with ID: {st.session_state.conversation_id}")
     if 'count' not in st.session_state:
         st.session_state.count = 0
         print_log("Feedback count initialized to 0")
 
     model_choice = st.selectbox(
         "Select a model:",
-        ["HuggingFaceH4/zephyr-7b-beta", "ollama/mistral", "openai/gpt-4o-mini"]
+        ["HuggingFaceH4/zephyr-7b-beta"]
     )
     print_log(f"User selected model: {model_choice}")
 
@@ -88,5 +87,5 @@ def main():
 print_log("Streamlit app loop completed")
 
 if __name__ == "__main__":
-    print_log("Course Assistant application started")
+    print_log("Gadget specifications application started")
     main()

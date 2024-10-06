@@ -14,6 +14,7 @@ numpy = "==1.26.4"
 pandas = "*"
 openai = "*"
 streamlit = "*"
+spacy = "*"
 
 [dev-packages]
 

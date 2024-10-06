@@ -2,14 +2,15 @@ import os
 import time
 import json
 
-from openai import OpenAI
+# from openai import OpenAI
 from huggingface_hub import InferenceClient
 
 from elasticsearch import Elasticsearch
-from sentence_transformers import SentenceTransformer
+# from sentence_transformers import SentenceTransformer
+import spacy
 
 ELASTIC_URL = os.getenv("ELASTIC_URL", "http://elasticsearch:9200")
-OPENAI_API_KEY = os.getenv("OPENAI_API_KEY", "your-api-key-here")
+# OPENAI_API_KEY = os.getenv("OPENAI_API_KEY", "your-api-key-here")
 HF_API_TOKEN = os.getenv("HF_API_TOKEN")
 
 es_client = Elasticsearch(ELASTIC_URL)
@@ -19,7 +20,8 @@ print(f'Hugging client initialized = {hugging_face}')
 relevance_client = InferenceClient("mistralai/Mistral-7B-Instruct-v0.3", token=HF_API_TOKEN)
 print(f'Hugging client initialized = {relevance_client}')
 
-model = SentenceTransformer("all-mpnet-base-v2")
+# model = SentenceTransformer("all-mpnet-base-v2")
+nlp = spacy.load('en_core_web_sm')
 
 def elastic_search_knn(vector, vector_field, index_name="mobile-specifications"):
     """Return elastic search results for given vector."""
@@ -51,11 +53,20 @@ def elastic_search_knn(vector, vector_field, index_name="mobile-specifications")
 def build_prompt(phone_specifications, mobile_context):
     """Build the context using search results and return the prompt."""
     prompt_template = """
-You are mobile phone expert. Answer all the specifications of PHONE using the CONTEXT provided from SPECFICATIONS database.
+You are mobile phone expert. Answer all the questions of PHONE using the CONTEXT provided from SPECFICATIONS database.
 The specifications in the CONTEXT is a json string. Convert the json string to readable format before printing out the answer.
 Use only the specifications given in the context to print the specs of the device.
 Do not number the specifications passed.
 Print only the first result in a markdown format where subsections are indented in readable format.
+
+Case 1: If the user asks the question for eg:
+    Tell me the specifications of the iphone 12, then:
+        List down all the specifications of the first result present the CONTEXT.
+
+Case 2: If the user asks the question for eg:
+    List all the phones under samsung brand, then:
+        Print all the names of the mobile phones returned in the CONTEXT.
+        Print only the BRAND AND MODEL information.
 
 
 PHONE: {phone}

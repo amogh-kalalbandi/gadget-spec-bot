@@ -46,25 +46,25 @@ services:
       - elasticsearch
       - postgres
 
-  magic-platform:
-    env_file:
-      - .env
-    build:
-      context: .
-    command: mage
-    container_name: mage_pipeline
-    ports:
-      - "6789:6789"
-    volumes:
-      # Mount your local codebase to the container.
-      - .:/app
-      # Store the data output on local machine to easily debug (optional).
-      - ~/.mage_data:/app/mage_data
-    restart: on-failure:5
-    depends_on:
-      - postgres
-    stdin_open: true # used for interactive debugging
-    tty: true # used for interactive debugging
+  # magic-platform:
+  #   env_file:
+  #     - .env
+  #   build:
+  #     context: .
+  #   command: mage
+  #   container_name: mage_pipeline
+  #   ports:
+  #     - "6789:6789"
+  #   volumes:
+  #     # Mount your local codebase to the container.
+  #     - .:/app
+  #     # Store the data output on local machine to easily debug (optional).
+  #     - ~/.mage_data:/app/mage_data
+  #   restart: on-failure:5
+  #   depends_on:
+  #     - postgres
+  #   stdin_open: true # used for interactive debugging
+  #   tty: true # used for interactive debugging
 
   # grafana:
   #   image: grafana/grafana:latest
