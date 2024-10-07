@@ -16,6 +16,7 @@ openai = "*"
 streamlit = "*"
 spacy = "*"
 flask = "*"
+torch = "==2.2.2"
 
 [dev-packages]
 

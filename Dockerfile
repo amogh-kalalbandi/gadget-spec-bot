@@ -4,7 +4,7 @@ ENV PYTHONUNBUFFERED=1
 
 WORKDIR /app
 
-RUN apt-get update -y && \
+RUN apt-get update && \
   apt-get install --no-install-recommends -y -q \
   git libpq-dev build-essential libsnappy-dev && \
   apt-get clean && \

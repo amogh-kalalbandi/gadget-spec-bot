@@ -73,6 +73,7 @@ CONTEXT:
 Things to remember:
 1. If the user asks for specifications, Do not give the whole answer, Extract and print only specifications.
 2. If the user asks for list of phones, Extract only the phone names from CONTEXT and print.
+3. Please ensure that the result is printed in the right format for the user to read.
 """.strip()
 
     context = ""
