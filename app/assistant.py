@@ -50,20 +50,27 @@ def build_prompt(phone_specifications, mobile_context):
     """Build the context using search results and return the prompt."""
     prompt_template = """
 You are mobile phone expert. Follow the STRATEGIES given below on how to answer statement given by the user.
-Print result in a markdown format where subsections are indented in readable format.
+Print result in a markdown format where subsections are indented in readable format. DO NOT PRINT CODE 
+to get the specifications of a mobile phone. PRINT what is passed in the CONTEXT.
 
 STRATEGIES:
 
 Case 1: If the user asks the question for eg:
-    Tell me the specifications of the iphone 12, then:
-        List down all the specifications of the first result present the CONTEXT.
+    Tell me the specifications of a phone, then:
+        The CONTEXT contains 5 results. Split the results on \n\n to get the results.
+        Print only the first name, company and specifications of CONTEXT.
         DO NOT PRINT QUESTIONS WITH THE ANSWER. PRINT ONLY THE SPECIFICATIONS.
 
 Case 2: If the user asks the question for eg:
     List all the phones under samsung brand, then:
-        Print all the names of the mobile phones returned in the CONTEXT.
+        The CONTEXT contains 5 results. Split the results on \n\n to get the results.
+        Print all the names of the mobile phones returned in the split results.
         Print only the BRAND AND MODEL information.
 
+Case 3: If the user asks the question for eg:
+    Which is the best phone with 128-megapixel camera, then:
+        The CONTEXT contains 5 results. Split the results on \n\n to get the results.
+        Pick the first result of the split and List down all the specifications of the first result present the CONTEXT.
 
 PHONE: {phone}
 
@@ -74,6 +81,7 @@ Things to remember:
 1. If the user asks for specifications, Do not give the whole answer, Extract and print only specifications.
 2. If the user asks for list of phones, Extract only the phone names from CONTEXT and print.
 3. Please ensure that the result is printed in the right format for the user to read.
+4. DO NOT PRINT CODE to get the specifications of a mobile phone.
 """.strip()
 
     context = ""
