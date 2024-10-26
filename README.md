@@ -13,3 +13,10 @@ Some points about the project:
 
 1. The project does not contain retrieval evaluation because of the nature of the dataset and the problem I chose to solve.
 2. The project does not contain RAG evaluation like how its shown in the LLM Zoomcamp course. Since I am using a derived mistral model (open source one), I was able to verify whether the LLM model was understand the context and generated text or not.
+3. The LLM model is not foolproof. There is a lot of hallucinations. 5 out of 10 times it answers the question correctly.
+4. Some example prompts of the project:
+
+    - Tell me the specifications of redmi-note-15
+    - Tell me the specifications of samsung-galaxy-m35
+    - Which is the best phone with 6GB RAM (unpredictable result)
+    - Which is the best phone with Snapdragon processor (unpredictable result)
